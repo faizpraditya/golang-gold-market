@@ -2,11 +2,8 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"time"
 
 	_ "github.com/jackc/pgx/stdlib"
-	"github.com/jmoiron/sqlx"
 )
 
 // golang sebenarnya sudah provide golang database sql (interfacing)
@@ -16,22 +13,22 @@ import (
 // go get github.com/jackc/pgx
 // go get github.com/jmoiron/sqlx
 
-// dibuat public karena akan dipakai di package sqlx
-type Customers struct {
-	Id        int
-	FirstName string `db:"first_name"`
-	LastName  string `db:"last_name"`
-	// struct tag
-	DateOfBirth time.Time `db:"date_of_birth"`
-	Address     string
-	Status      int
-	Email       string
-	Username    string    `db:"user_name"`
-	Password    string    `db:"user_password"`
-	CreatedAt   time.Time `db:"created_at"`
-	UpdatedAt   time.Time `db:"updated_at"`
-	DomisiliID  int       `db:"domisili_id"`
-}
+// // dibuat public karena akan dipakai di package sqlx
+// type Customers struct {
+// 	Id        int
+// 	FirstName string `db:"first_name"`
+// 	LastName  string `db:"last_name"`
+// 	// struct tag
+// 	DateOfBirth time.Time `db:"date_of_birth"`
+// 	Address     string
+// 	Status      int
+// 	Email       string
+// 	Username    string    `db:"user_name"`
+// 	Password    string    `db:"user_password"`
+// 	CreatedAt   time.Time `db:"created_at"`
+// 	UpdatedAt   time.Time `db:"updated_at"`
+// 	DomisiliID  int       `db:"domisili_id"`
+// }
 
 func main() {
 	/*
@@ -43,33 +40,38 @@ func main() {
 	// -d -p itu namanya flag
 	// .env biasanya di git ingore, hanya untuk membantu proses development
 	// Api key jangan di push
-	dbHost := "localhost"
-	dbPort := "5432"
-	dbName := "gold_market_db"
-	dbUser := "postgres"
-	dbPassword := "12345678"
+	// dbHost := "localhost"
+	// dbPort := "5432"
+	// dbName := "gold_market_db"
+	// dbUser := "postgres"
+	// dbPassword := "12345678"
+	// godotenv package
 
 	// Database connection string
 	// 1. postgres://user:password@host:port/db?sslmode=disable
 	// 2. host= user= dbname= sslmode=disable password= port=
-	datasourceName := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", dbUser, dbPassword, dbHost, dbPort, dbName)
+	// datasourceName := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", dbUser, dbPassword, dbHost, dbPort, dbName)
+
+	fmt.Println(stringToDate("2020-03-20"))
+	connectDB(envVar())
 
 	// Connect to databasae
 	// sqlx.Connect("pgx", datasourceName)
-	db, err := sqlx.Connect("pgx", datasourceName)
-	if err != nil {
-		log.Fatal(err)
-	} else {
-		log.Println("Successfully connect to database!")
-	}
+	// db, err := sqlx.Connect("pgx", datasourceName)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// } else {
+	// 	log.Println("Successfully connect to database!")
+	// }
 
-	// Close connection to database
-	defer func(db *sqlx.DB) {
-		err := db.Close()
-		if err != nil {
-			panic(err)
-		}
-	}(db)
+	// // Close connection to database
+	// defer func(db *sqlx.DB) {
+	// 	err := db.Close()
+	// 	if err != nil {
+	// 		panic(err)
+	// 	}
+	// }(db)
+
 	// Modifying data to database
 
 	// Insert
@@ -168,7 +170,7 @@ func main() {
 	// }
 
 	// Delete where
-	db.MustExec("DELETE FROM mst_customer WHERE id=$1", 3)
+	// db.MustExec("DELETE FROM mst_customer WHERE id=$1", 3)
 	// Delete all
 	// db.MustExec("DELETE FROM mst_customer")
 }
