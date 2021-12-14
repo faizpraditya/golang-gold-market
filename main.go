@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	_ "github.com/jackc/pgx/stdlib"
 )
@@ -53,7 +54,22 @@ func main() {
 	// datasourceName := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", dbUser, dbPassword, dbHost, dbPort, dbName)
 
 	fmt.Println(stringToDate("2020-03-20"))
-	connectDB(envVar())
+	// File load env harusnya diberi kondisi agar bisa dioverride oleh env var dari terminal
+	db := connectDB()
+	var listCustomers []Customers
+	rows, _ := db.conn.Queryx("SELECT * FROM mst_customer")
+	for rows.Next() {
+		var c Customers
+		err := rows.StructScan(&c)
+		if err != nil {
+			log.Fatal(err)
+		} else {
+			listCustomers = append(listCustomers, c)
+		}
+	}
+
+	time := stringToDate("2020-11-09")
+	fmt.Println(time)
 
 	// Connect to databasae
 	// sqlx.Connect("pgx", datasourceName)
