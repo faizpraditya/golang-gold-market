@@ -61,12 +61,13 @@ import (
 
 // }
 
-type Database struct {
-	conn *sqlx.DB
-	err  error
-}
+// type Database struct {
+// 	conn *sqlx.DB
+// 	err  error
+// }
 
-func connectDB() *Database {
+func connectDB() *sqlx.DB {
+	// func connectDB() *Database {
 	err := godotenv.Load(".env")
 
 	if err != nil {
@@ -87,7 +88,8 @@ func connectDB() *Database {
 	} else {
 		log.Println("Successfully connect to database!")
 	}
-	return &Database{db, err}
+	return db
+	// return &Database{db, err}
 }
 
 // func closeDB() {

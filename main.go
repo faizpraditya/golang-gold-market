@@ -1,9 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"log"
-
 	_ "github.com/jackc/pgx/stdlib"
 )
 
@@ -31,6 +28,31 @@ import (
 // 	DomisiliID  int       `db:"domisili_id"`
 // }
 
+/*
+Fetching :
+1. Get All Customer
+2. Get By Customer ID
+3. Get Total Customer
+4. Find Customer By FirstName
+5. Get Customer with Domisili (join)
+6. Find Customer with domisil name (join)
+
+Yang digunakan:
+1. Select => Multiple row
+2. Get => Single row
+3. Queryx => Multiple row
+4. QueryRowx => Single row
+5. PrepareNamed => Reuse, dia di defined select, kemudian reuse => Get, Select (:named)
+6. Preparex => Reuse, dia di defined select, kemudian reuse => Get, Select ($1, )
+*/
+
+// Tugas :
+// 1. Buat update customer by email => email ada atau tidak ? update : "Email tidak ada"
+// 2. ALTER TABLE mst_customer -> field: is_actived (int) 1 = Active; 0 = Non Active, buat update Active dan Non Active
+// 3. Buat simulasi login -> is_actived = 1 | 0 = informasi gagal login ...
+// 4. Tampilkan jumlah customer berdasarkan domisili
+// 5. Tampilkan rata-rata umur customer berdasarkan domisili
+
 func main() {
 	/*
 		sqlx.connect postgres
@@ -53,23 +75,37 @@ func main() {
 	// 2. host= user= dbname= sslmode=disable password= port=
 	// datasourceName := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", dbUser, dbPassword, dbHost, dbPort, dbName)
 
-	fmt.Println(stringToDate("2020-03-20"))
+	// fmt.Println(stringToDate("2020-03-20"))
 	// File load env harusnya diberi kondisi agar bisa dioverride oleh env var dari terminal
 	db := connectDB()
-	var listCustomers []Customers
-	rows, _ := db.conn.Queryx("SELECT * FROM mst_customer")
-	for rows.Next() {
-		var c Customers
-		err := rows.StructScan(&c)
-		if err != nil {
-			log.Fatal(err)
-		} else {
-			listCustomers = append(listCustomers, c)
-		}
-	}
+	// var listCustomers []Customers
+	// rows, _ := db.conn.Queryx("SELECT * FROM mst_customer")
+	// for rows.Next() {
+	// 	var c Customers
+	// 	err := rows.StructScan(&c)
+	// 	if err != nil {
+	// 		log.Fatal(err)
+	// 	} else {
+	// 		listCustomers = append(listCustomers, c)
+	// 	}
+	// }
+	// GetCustomers(db)
+	// GetCustomers(db)
+	// GetCustomerByID(db, 1)
+	// GetCustomerByName(db, "Fa")
+	// GetCustomersDomicile(db)
+	// GetCustomersByEmail(db, "faiz@gmail.com")
+	// FindCustomerByDomicile(db, "%jak%")
+	// GetTotalCustomer(db)
+	// TotalCustomerByDomicile(db)
+	// GetCustomerByIDWithPrepare(db, 1)
+	// UpdateCustomerByEmail(db, "faiz@gmail.com", "faiz@praditya.com")
 
-	time := stringToDate("2020-11-09")
-	fmt.Println(time)
+	// TotalCustomerByDomicile(db)
+	// AgeAvgCustomerByDomicile(db)
+
+	// time := stringToDate("2020-11-09")
+	// fmt.Println(time)
 
 	// Connect to databasae
 	// sqlx.Connect("pgx", datasourceName)
@@ -120,7 +156,7 @@ func main() {
 	// 		UpdatedAt:   time.Now(),
 	// 	},
 	// }
-	// _, err = db.NamedExec(`INSERT INTO mst_customer
+	// _, err := db.NamedExec(`INSERT INTO mst_customer
 	// (id, first_name, last_name, date_of_birth, address, status, email, user_name, user_password, domisili_id, created_at, updated_at)
 	// VALUES (:id, :first_name, :last_name, :date_of_birth, :address, :status, :email, :user_name, :user_password, :domisili_id, :created_at, :updated_at)`, customers)
 
@@ -189,4 +225,6 @@ func main() {
 	// db.MustExec("DELETE FROM mst_customer WHERE id=$1", 3)
 	// Delete all
 	// db.MustExec("DELETE FROM mst_customer")
+
+	UpdateIsActiveById(db, 51, 0)
 }
