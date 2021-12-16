@@ -1,0 +1,43 @@
+Rabu
+setelah rollback bisa return atau tidak
+jika pakai return, line setelah itu tidak dijalankan
+jika tidak, line tetap dijalankan, namun tidak dicommit
+
+propernya harus dicek di select (simulasi transaksi, kalau tidak misal itu id pertama ga ada, bakal error) (kalau pake return ga ada error krn line selanjutnya tidak dijalankan) (mustbegin balikannya panic) (bisa diganti begin, si error di _)
+
+must begin panic, begin error, tinggal disesuaikan kita butuhnya apa. (defer recover)
+
+sebelum melakukan transaction harusnya melakukan validasi terlebih dahulu
+named exec harus pakai name parameter
+exec parameter dolar
+
+kalau datanya banyak, pertimbangakan di database.
+data migration level api kena timeout.
+data migration mending dilevel db.
+
+challenge
+transaksi mengurangi produk
+hapus product pakai soft_delete
+tambah product product baru, bukan stok
+6. laporan semua transaksi
+semua transaksi ditampilkan kemudian di sum
+produk ini kejual segini
+berapa banyak trs rupiahnya
+ga usah customer
+
+customer hardcode aja, di terminal, udah ditentuin.
+
+// drive
+go get github.com/jmoiron/sqlx
+// extension
+go get github.com/jackc/pgx/stdlib
+go get github.com/joho/godotenv
+
+CREATE TABLE note(
+    note_id serial PRIMARY KEY,
+    message varchar(255) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+// Export query untuk create table
+pg_dump -t 'public.m_customer' --schema-only enigma_mart

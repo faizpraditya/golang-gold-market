@@ -226,5 +226,8 @@ func main() {
 	// Delete all
 	// db.MustExec("DELETE FROM mst_customer")
 
-	UpdateIsActiveById(db, 51, 0)
+	// UpdateIsActiveById(db, 51, 0)
+
+	// CustomersTransferSimulation(db)
+	GetCustomersByEmail(db, "f")
 }

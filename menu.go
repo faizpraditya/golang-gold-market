@@ -250,3 +250,38 @@ func check_error(err error, s string) {
 		log.Println("Successfully " + s + " to database")
 	}
 }
+
+func CustomersTransferSimulation(db *sqlx.DB) {
+	tx := db.MustBegin()
+
+	// Update saldo PENGIRIM (id nya ada)
+	moneyOne := CustomerTransfer{
+		Id:    1,
+		Money: 50000,
+	}
+
+	// Update saldo PENERIMA (id nya tidak ada | id => ! 1-5)
+	moneyTwo := CustomerTransfer{
+		Id:    5,
+		Money: 50000,
+	}
+
+	// Result mengembalikan 2 nilai
+	// Penerima
+	result, _ := tx.NamedExec(UPDATE_SALDO_CUSTOMER_MINUS, moneyOne)
+	r, _ := result.RowsAffected()
+	// Error.new "__"
+	if r == 0 {
+		tx.Rollback()
+	}
+
+	// Penerima
+	result2, _ := tx.NamedExec(UPDATE_SALDO_CUSTOMER_PLUS, moneyTwo)
+	r2, _ := result2.RowsAffected()
+	if r2 == 0 {
+		// Rollback ngeskip commit
+		tx.Rollback()
+	}
+
+	tx.Commit()
+}

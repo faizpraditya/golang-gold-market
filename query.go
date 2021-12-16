@@ -11,4 +11,10 @@ const (
 	ORDER BY mst_customer.id`
 
 	UPDATE_IS_ACTIVE = `UPDATE mst_customer SET is_actived = :is_actived WHERE id = :id`
+
+	UPDATE_SALDO_CUSTOMER_PLUS = `UPDATE mst_customer SET money = (money + :money)
+	WHERE id = :id`
+
+	UPDATE_SALDO_CUSTOMER_MINUS = `UPDATE mst_customer SET money = (money - :money)
+	WHERE id = :id`
 )

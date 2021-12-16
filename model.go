@@ -36,3 +36,8 @@ type CustomerDomicile struct {
 	Count        int     `db:"count"`
 	Avg          float32 `db:"avg"`
 }
+
+type CustomerTransfer struct {
+	Id    int `db:"id"`
+	Money int `db:"money"`
+}
