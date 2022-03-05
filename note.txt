@@ -27,7 +27,7 @@ ga usah customer
 
 customer hardcode aja, di terminal, udah ditentuin.
 
-// drive
+// driver
 go get github.com/jmoiron/sqlx
 // extension
 go get github.com/jackc/pgx/stdlib
